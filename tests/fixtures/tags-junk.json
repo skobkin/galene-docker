@@ -1,0 +1,18 @@
+[
+  {
+    "name": "galene-1.2.1-rc1",
+    "commit": { "sha": "dddddddddddddddddddddddddddddddddddddddd", "url": "https://api.github.com/repos/jech/galene/commits/dddddddddddddddddddddddddddddddddddddd" }
+  },
+  {
+    "name": "galene-nightly",
+    "commit": { "sha": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "url": "https://api.github.com/repos/jech/galene/commits/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee" }
+  },
+  {
+    "name": "galene-1.2.1",
+    "commit": { "sha": "0123456789abcdef0123456789abcdef01234567", "url": "https://api.github.com/repos/jech/galene/commits/0123456789abcdef0123456789abcdef01234567" }
+  },
+  {
+    "name": "gh-pages",
+    "commit": { "sha": "ffffffffffffffffffffffffffffffffffffffff", "url": "https://api.github.com/repos/jech/galene/commits/ffffffffffffffffffffffffffffffffffffffff" }
+  }
+]

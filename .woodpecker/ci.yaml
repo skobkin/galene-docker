@@ -1,0 +1,65 @@
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    settings:
+      depth: 1
+
+steps:
+  - name: prepare-release
+    image: alpine:3.23
+    environment:
+      # Woodpecker repository-specific user input is modeled as secrets in this repo.
+      DOCKERHUB_IMAGE_REPO:
+        from_secret: DOCKERHUB_IMAGE_REPO
+      GHCR_IMAGE_REPO:
+        from_secret: GHCR_IMAGE_REPO
+      GHCR_LOGIN:
+        from_secret: GHCR_LOGIN
+      GHCR_TOKEN:
+        from_secret: GHCR_TOKEN
+    commands:
+      - apk add --no-cache curl jq
+      - sh tests/test-discovery.sh
+      - sh ci/prepare-release.sh
+    when:
+      - event: manual
+      - event: cron
+        cron: release-check
+
+  - name: publish-dockerhub
+    image: woodpeckerci/plugin-docker-buildx:6
+    privileged: true
+    depends_on:
+      - prepare-release
+    environment:
+      DOCKERHUB_IMAGE_REPO:
+        from_secret: DOCKERHUB_IMAGE_REPO
+      DOCKERHUB_LOGIN:
+        from_secret: DOCKERHUB_LOGIN
+      DOCKERHUB_TOKEN:
+        from_secret: DOCKERHUB_TOKEN
+    commands:
+      - sh ci/run-buildx.sh dockerhub
+    when:
+      - event: manual
+      - event: cron
+        cron: release-check
+
+  - name: publish-ghcr
+    image: woodpeckerci/plugin-docker-buildx:6
+    privileged: true
+    depends_on:
+      - prepare-release
+    environment:
+      GHCR_IMAGE_REPO:
+        from_secret: GHCR_IMAGE_REPO
+      GHCR_LOGIN:
+        from_secret: GHCR_LOGIN
+      GHCR_TOKEN:
+        from_secret: GHCR_TOKEN
+    commands:
+      - sh ci/run-buildx.sh ghcr
+    when:
+      - event: manual
+      - event: cron
+        cron: release-check

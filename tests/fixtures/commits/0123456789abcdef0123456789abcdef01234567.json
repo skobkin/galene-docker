@@ -1,0 +1,14 @@
+{
+  "sha": "0123456789abcdef0123456789abcdef01234567",
+  "commit": {
+    "author": {
+      "name": "Juliusz Chroboczek",
+      "date": "2026-09-08T16:12:32Z"
+    },
+    "committer": {
+      "name": "Juliusz Chroboczek",
+      "date": "2026-09-08T16:12:32Z"
+    },
+    "message": "Galene 1.2.1"
+  }
+}
