@@ -57,8 +57,8 @@ Images carry OCI labels: title, description, upstream source URL, upstream versi
 
 ## Woodpecker setup
 
-1. Enable the repository in Woodpecker and mark it **trusted** (required for the privileged buildx plugin).
-2. Allowlist the plugin on the server/agent: `WOODPECKER_PLUGINS_PRIVILEGED` must include `woodpeckerci/plugin-docker-buildx`.
+1. Enable the repository in Woodpecker and mark it **trusted** — the publish steps run the buildx plugin with `privileged: true` (the plugin runs its own BuildKit daemon), and Woodpecker grants privileged steps only to trusted repositories. This is a per-repository flag and does not carry over from other repositories.
+2. Server/agent-level plugin allowlist: `WOODPECKER_PLUGINS_PRIVILEGED` must include `woodpeckerci/plugin-docker-buildx`. Any instance that already publishes another repository with the same plugin (the `:6` tag here) has this configured; it only needs revisiting if the plugin tag is bumped in `ci.yaml`.
 3. Multi-arch builds require `binfmt_misc`/QEMU handlers on the CI agent for `linux/arm64` (`docker run --privileged tonistiigi/binfmt --install arm64` on the agent host).
 4. Add the secrets below.
 5. Create a cron job in the repository settings:
