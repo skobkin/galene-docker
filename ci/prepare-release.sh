@@ -112,7 +112,10 @@ tag_exists_in_dockerhub() {
 }
 
 tag_exists_in_ghcr() {
-	status="$(registry_manifest_status "https://ghcr.io" "$1" "$2" "$(ghcr_token "$1")")"
+	# GHCR_IMAGE_REPO is a fully qualified image name ("ghcr.io/ns/repo"),
+	# but the token scope and manifest URL want the package path alone.
+	ghcr_path="${1#ghcr.io/}"
+	status="$(registry_manifest_status "https://ghcr.io" "${ghcr_path}" "$2" "$(ghcr_token "${ghcr_path}")")"
 	[ "${status}" = "200" ]
 }
 
